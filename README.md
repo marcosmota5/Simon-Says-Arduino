@@ -1,5 +1,14 @@
 # Simon Says Game v1.0
 
+# Credits
+
+COMP 1045 Group Assignment - Simon Says Game
+Group: 5
+Group Members: Marcos Mota
+Member Responsible for Code and Circuit: Marcos Mota
+Created on: 2024-02-23
+Version v1.0
+
 # Description
 
 This is an Arduino project that features a Simons Says game. This project was built for a group assignment, check the details inside the comments on the circuit to see the tutorials and information about how the game works.  Also, all code are commented to make it easier to understand the logic behind each variable and function.
@@ -44,3 +53,14 @@ To change the difficulty level, turn the corresponding potentiometer (blue wheel
 
 Focusing on accessibility for people with color blindness, you can select different colors for the lights. The game has 7 different color patterns.
 To change the color pattern, turn the corresponding potentiometer (blue wheel on the right). You will see the lights changing colors right away.
+
+Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
