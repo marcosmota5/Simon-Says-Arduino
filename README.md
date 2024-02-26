@@ -54,6 +54,8 @@ To change the difficulty level, turn the corresponding potentiometer (blue wheel
 Focusing on accessibility for people with color blindness, you can select different colors for the lights. The game has 7 different color patterns.
 To change the color pattern, turn the corresponding potentiometer (blue wheel on the right). You will see the lights changing colors right away.
 
+# License
+
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
 
 This work is licensed under a
