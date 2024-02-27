@@ -28,24 +28,25 @@ The game total amount of levels can be changed at will by changing the variable 
 
 # Score
 
-The score is calculated based on how many seconds you took to click on each light. The score starts at 100 and will decrease 5 points for each second you take to click on a light, but you will get a minimum of 10 points for a correct answer even if you take a very long time.
+The score is calculated based on how many seconds you took to click on each light. The base score value starts at a number that varies depending on the difficulty (check the Difficulty section for details of each level) and will decrease 5 points for each second you take to click on a light, but you will get a minimum of 10 points for a correct answer even if you take a very long time.
 
 # Setup Mode
 
-In the setup mode you can select the difficulty and the color pattern (for people with color blindness, for accessibility purposes). Check below the details.
+In the setup mode you can select the difficulty and the color pattern (for people with color blindness, for accessibility purposes).
+
 Changing difficulty and color pattern will only take effect when entering the Setup Mode.
 
 # Difficulty
 
-The game has 7 difficulty levels. The difference between each level is the delay between lights, that means, harder = less time. The levels and their time values are:
+The game has 7 difficulty levels. The difference between each level is the delay between lights, that means, harder = less time, and how many points you get per correct answer. The levels and their time values and base points are:
 
-    Baby: 7 seconds between each light
-    Very Easy: 6 seconds between each light
-    Easy: 5 seconds between each light
-    Normal: 4 seconds between each light
-    Hard: 3 seconds between each light
-    Very Hard: 2 seconds between each light
-    Insane: 1 second between each light
+    Baby: 7 seconds between each light, 25 points per correct answer.
+    Very Easy: 6 seconds between each light, 50 points per correct answer.
+    Easy: 5 seconds between each light, 75 points per correct answer.
+    Normal: 4 seconds between each light, 100 points per correct answer.
+    Hard: 3 seconds between each light, 125 points per correct answer.
+    Very Hard: 2 seconds between each light, 150 points per correct answer.
+    Insane: 1 second between each light, 175 points per correct answer.
 
 To change the difficulty level, turn the corresponding potentiometer (blue wheel on the left). The easiest difficulties are on the left side and the hardest difficulties are on the right side. You will see the difficulty on the screen when you change it.
 
