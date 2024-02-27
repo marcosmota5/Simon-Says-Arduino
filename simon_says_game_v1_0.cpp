@@ -103,7 +103,7 @@ int score = 0;
 bool shouldDisplayStartMessage = true;
 
 // Declare the total amount of levels the game will have
-const int totalLevels = 10;
+const int totalLevels = 4;
 
 // Declare the sequence array that will store the full random sequence of notes
 int sequence[totalLevels + 1];
@@ -250,15 +250,24 @@ void loop()
   // Show the current sequence to the user
   showSequence();
   
+  // Gets the time passed using the function that get the miliseconds since the simulation started
+  int timePassed = millis() / 1000;
+  
   // Call the function that checks the user inputed sequence and, if it was correct,
   // show the correct options, otherwise, displays the game over message
   if(checkSequence())
   {
 
-    // If the current position is greater than 0, meaning it's not the first run, play the correct sound
+    // If the current position is greater than 0, meaning it's not the first run, play the correct sound and calculate
+    // the seconds passed
     if (currentPosition > 0)
     {
       displayCorrectMessage();
+      
+      // Calculate how many seconds passed by getting again the miliseconds since the simulation started
+      // and subtracting the one before the while started
+      secondsPassed = (millis() / 1000) - timePassed;
+
     }
      
     // Clear the LCD and show the level and score
@@ -487,7 +496,37 @@ void calculateScore()
   }
 
   // Base score for a correct answer
-  int baseScore = 100;
+  int baseScore;
+  
+  // Check the delay value and set the base score accordingly
+  if(delayValue <= 100)
+  {
+    baseScore = 175;
+  }
+  else if(delayValue <= 200)
+  {
+    baseScore = 150;
+  }
+  else if(delayValue <= 300)
+  {
+    baseScore = 125;
+  }
+  else if(delayValue <= 400)
+  {
+    baseScore = 100;
+  }
+  else if(delayValue <= 500)
+  {
+    baseScore = 75;
+  }
+  else if(delayValue <= 600)
+  {
+    baseScore = 50;
+  }
+  else
+  {
+    baseScore = 25;
+  }
 
   // The rate at which the score decreases per second
   int decreaseRate = 5;
@@ -537,9 +576,6 @@ bool checkSequence()
 // Function that gets the button pressed and return the index of it
 int getButtonPressed()
 {
-  // Gets the time passed using the function that get the miliseconds since the simulation started
-  int timePassed = millis() / 1000;
-
   // While that runs indefinetly in order to make the user able to press the desired button and then return it
   while (true)
   {
@@ -552,10 +588,6 @@ int getButtonPressed()
       // Check if the button was pressed and if so, return it
       if (digitalRead(button) == HIGH)
       {
-        // Calculate how many seconds passed by getting again the miliseconds since the simulation started
-        // and subtracting the one before the while started
-        secondsPassed = (millis() / 1000) - timePassed;
-
         // Return the button
         return i;
       }
