@@ -103,7 +103,7 @@ int score = 0;
 bool shouldDisplayStartMessage = true;
 
 // Declare the total amount of levels the game will have
-const int totalLevels = 4;
+const int totalLevels = 10;
 
 // Declare the sequence array that will store the full random sequence of notes
 int sequence[totalLevels + 1];
