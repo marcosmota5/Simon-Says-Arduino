@@ -1,8 +1,8 @@
 // COMP 1045 Group Assignment - Simon Says Game
 // Group: 5
-// Student Id and Names: 200564426 - Marcos Mota, 
+// Student Id and Names: Marcos, Lucas, Sergio, Vinicius, Natália
 // Created on: 2024-02-23
-// Version v1.0
+// Version v1.1
 
 // Include the NeoPixel library 
 #include <Adafruit_NeoPixel.h>
@@ -54,6 +54,7 @@ const int buzzer = 2;
 
 // Declare the pin for the potentiometers that control the difficulty and color pattern
 const int potDifficulty = A1;
+const int potSpeed = A4;
 const int potColors = A2;
 
 // Declare the current delay value and a new value to compare and change when it's needed
@@ -102,11 +103,18 @@ int score = 0;
 // Declare the variable to specify if the start sound should be played
 bool shouldDisplayStartMessage = true;
 
-// Declare the total amount of levels the game will have
-const int totalLevels = 10;
+// Declare the total levels that the game can have
+const int totalLevels = 64;
 
 // Declare the sequence array that will store the full random sequence of notes
 int sequence[totalLevels + 1];
+
+// Declare the max level variable that will be used to get how many levels the game will have based on the selected difficulty
+int maxLevel = 10;
+
+// Declare the current difficulty value and a new value to compare and change when it's needed
+int difficultyPotValue = 0;
+int newDifficultyPotValue = 0;
 
 // Declare the variable to store the current position of the game
 int currentPosition = 0;
@@ -176,6 +184,7 @@ void setup()
   
   // Configure the potentiometers and buzzer pins
   pinMode(potDifficulty, INPUT);
+  pinMode(potSpeed, INPUT);
   pinMode(potColors, INPUT);
   pinMode(buzzer, OUTPUT);
  
@@ -183,7 +192,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(buttonStart), setGameState, RISING);
   
   // Print the game information and a starting message
-  lcd.print("Simon Says v1.0");
+  lcd.print("Simon Says v1.1");
   lcd.setCursor(0, 1);
   lcd.print("Starting...");
   
@@ -201,9 +210,6 @@ void setup()
   lcd.setCursor(0, 0);
   lcd.print("-- Setup Mode --");
 
-  // Print the current difficulty name
-  printDificultyName();
-  
   // Create the custom characters for the play and waiting symbols
   lcd.createChar(0, playSymbol);
   lcd.createChar(1, hourglassSymbol);
@@ -216,16 +222,24 @@ void loop()
   // If the game state is one, that means, in the Setup Mode, runs the code and return until the mode is changed
   if (gameState == 1)
   {
-    // Get the new delay value by reading the difficulty potentiometer and mapping it so
+    // Get the new delay value by reading the speed potentiometer and mapping it so
     // its value is between 100 and 700
-    newDelayValue = map(analogRead(potDifficulty), 0, 1023, 700, 100);
+    newDelayValue = map(analogRead(potSpeed), 0, 1023, 700, 100);
     
-    // If the new delay value is different than the old one, set the delay as the new one and print the
-    // new difficulty name
+    // If the new delay value is different than the old one, set the delay as the new one
     if (newDelayValue != delayValue)
     {
       delayValue = newDelayValue;
-      printDificultyName();
+    }
+    
+    // Get the new max level by reading the difficulty potentiometer and mapping it so
+    // its value is between 100 and 700
+    difficultyPotValue = map(analogRead(potDifficulty), 0, 1023, 700, 100);
+ 
+    // If the new max level is different than the old one, set the max level as the new one and print the diffculty name
+    if (newDifficultyPotValue != difficultyPotValue)
+    {
+      getAndPrintDifficulty();
     }
     
     // Call the function that gets the selected colors from the potentiometers
@@ -285,7 +299,7 @@ void loop()
      
     // Check if the current position is the last one and, if so, display the game done message and reset the current position
     // otherwise, increase the current position
-    if (currentPosition == totalLevels )
+    if (currentPosition == maxLevel)
     {
       displayGameDoneMessage();
       currentPosition = 0;
@@ -305,38 +319,44 @@ void loop()
 }
 
 // Function that prints the difficulty name depending on the delay value
-void printDificultyName()
+void getAndPrintDifficulty()
 {
   // Set the cursor to the first column and second row
   lcd.setCursor(0, 1);
   
-  // Check the delay value and print the difficulty name accordingly
-  if(delayValue <= 100)
+  if(difficultyPotValue <= 100)
   {
+    maxLevel = 20;
     lcd.print("Dif.: Insane    ");
   }
-  else if(delayValue <= 200)
+  else if(difficultyPotValue <= 200)
   {
+    maxLevel = 14;
     lcd.print("Dif.: Very Hard ");
   }
-  else if(delayValue <= 300)
+  else if(difficultyPotValue <= 300)
   {
+    maxLevel = 10;
     lcd.print("Dif.: Hard      ");
   }
-  else if(delayValue <= 400)
+  else if(difficultyPotValue <= 400)
   {
+    maxLevel = 8;
     lcd.print("Dif.: Normal    ");
   }
-  else if(delayValue <= 500)
+  else if(difficultyPotValue <= 500)
   {
+    maxLevel = 5;
     lcd.print("Dif.: Easy      ");
   }
-  else if(delayValue <= 600)
+  else if(difficultyPotValue <= 600)
   {
+    maxLevel = 4;
     lcd.print("Dif.: Very Easy ");
   }
   else
   {
+    maxLevel = 3;
     lcd.print("Dif.: Baby      ");
   }
 }
@@ -448,6 +468,9 @@ void displayGameDoneMessage()
   delay(100);
 
   turnOffAllPixels();
+  
+  // Call the function that sets a new random sequence
+  setRandomSequence();
 }
 
 // Function that plays a given note by the given duration
@@ -499,27 +522,27 @@ void calculateScore()
   int baseScore;
   
   // Check the delay value and set the base score accordingly
-  if(delayValue <= 100)
+  if(difficultyPotValue <= 100)
   {
     baseScore = 175;
   }
-  else if(delayValue <= 200)
+  else if(difficultyPotValue <= 200)
   {
     baseScore = 150;
   }
-  else if(delayValue <= 300)
+  else if(difficultyPotValue <= 300)
   {
     baseScore = 125;
   }
-  else if(delayValue <= 400)
+  else if(difficultyPotValue <= 400)
   {
     baseScore = 100;
   }
-  else if(delayValue <= 500)
+  else if(difficultyPotValue <= 500)
   {
     baseScore = 75;
   }
-  else if(delayValue <= 600)
+  else if(difficultyPotValue <= 600)
   {
     baseScore = 50;
   }
@@ -751,6 +774,6 @@ void setGameState()
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Setup Mode");
-    printDificultyName();
+    getAndPrintDifficulty();
   }
 }
