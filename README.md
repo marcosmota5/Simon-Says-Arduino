@@ -4,7 +4,7 @@
 
 COMP 1045 Group Assignment - Simon Says Game
 Group: 5
-Group Members: Marcos Mota
+Group Members: Marcos, Lucas, Sergio, Vinicius, Natália
 Member Responsible for Code and Circuit: Marcos Mota
 Created on: 2024-02-23
 Version v1.0
